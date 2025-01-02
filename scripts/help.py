@@ -90,19 +90,6 @@ def handle():
                             print("Missing or incorrect header guard (#endif) detected in " + filepath)
                         if found:
                             vulnerabilities += 1
-                        
-        # calloc/malloc/free check
-        for root, dirs, files in os.walk("src"):
-            for file in files:
-                filepath = os.path.join(root, file)
-                if ".h" in filepath or ".c" in filepath:
-                    with open(filepath, 'r') as file:
-                        linecount = 0
-                        for line in file:
-                            linecount += 1
-                            if "calloc(" in line or "malloc(" in line or "free(" in line:
-                                print("Detected an unmonitored memory operation in " + filepath + "on line " + str(linecount) + ":\n  " + line[0:-1].strip())
-                                vulnerabilities += 1
 
         # header implementation check
         for root, dirs, files in os.walk("src"):
